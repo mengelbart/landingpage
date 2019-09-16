@@ -10,7 +10,8 @@ jobs:
     steps:
     - name: Yarn build
       uses: Borales/actions-yarn@1.1.0
-      args: build
+      with:
+        args: build
     - name: Firebase Deploy
       uses: jakejarvis/firebase-deploy-action@v0.1.0
       env:
