@@ -8,6 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    - name: ls
+      run: |
+        pwd
+        ls
+        ls *
     - name: Yarn build
       uses: Borales/actions-yarn@1.1.0
       with:
