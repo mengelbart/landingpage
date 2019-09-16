@@ -15,7 +15,9 @@ jobs:
         node-version: '10.x'
 
     - name: Yarn build
-      run: yarn build
+      run: |
+        yarn install
+        yarn build
     
     - name: Firebase Deploy
       uses: jakejarvis/firebase-deploy-action@v0.1.0
