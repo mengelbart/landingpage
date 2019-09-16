@@ -37,10 +37,8 @@ class ResultList extends LitElement {
   }
 
   handleInput(e) {
-    console.log(this.links);
     this.search = e.target.value;
     this.links = this.filter(links, this.search);
-    console.log(this.links);
   }
 
   filter(links, search) {
