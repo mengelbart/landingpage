@@ -8,9 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Yarn build
+    - uses: actions/checkout@v1
+    - name: Setup Node
       uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+
+    - name: Yarn build
       run: yarn build
+    
     - name: Firebase Deploy
       uses: jakejarvis/firebase-deploy-action@v0.1.0
       env:
