@@ -2,10 +2,6 @@ import { LitElement, css, html } from 'lit-element';
 
 const links = [
   {
-    name: "Google",
-    url: "https://google.com",
-  },
-  {
     name: "Github",
     url: "https://github.com/mengelbart",
   },
@@ -50,6 +46,11 @@ class ResultList extends LitElement {
     return html`<div id="wrapper">
   <label for="filter" class="visuallyhidden">Filter</label>
   <input id="filter" name="filter" type="text" placeholder="Filter" @input="${this.handleInput}" .value="${this.search}">
+  <div>
+    <p>
+      Not much to filter here, but a nice example of using lit-element
+    </p>
+  </div>
 </div>
 <div class="results">
   ${this.links.map((link) => html`<div class="link">
