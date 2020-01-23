@@ -48,7 +48,7 @@ class ResultList extends LitElement {
   <input id="filter" name="filter" type="text" placeholder="Filter" @input="${this.handleInput}" .value="${this.search}">
   <div>
     <p>
-      Not much to filter here, but a nice example of using lit-element
+      Not much to filter here, just a small example of using <a href="https://github.com/Polymer/lit-element" target="_blank" rel="noreferrer">lit-element</a> to create a filter-webcomponent. Find the source on <a href="https://github.com/mengelbart/landingpage/">github</a>
     </p>
   </div>
 </div>
