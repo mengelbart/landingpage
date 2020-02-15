@@ -12,7 +12,7 @@ const links = [
   },
   {
     name: "Blog",
-    url: "https://blog.engelbart.eu",
+    url: "https://blog.mathis.dev",
   }
 ];
 
