@@ -2,6 +2,11 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
+  devServer: {
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    }
+  },
   module: {
     rules: [
       {

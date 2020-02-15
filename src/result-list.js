@@ -1,5 +1,9 @@
 import { LitElement, css, html } from 'lit-element';
 
+import { Octokit } from '@octokit/rest';
+
+const octokit = Octokit();
+
 const links = [
   {
     name: "Github",
@@ -16,13 +20,21 @@ const links = [
   }
 ];
 
-
 class ResultList extends LitElement {
 
   constructor() {
     super();
     this.search = '';
     this.links = links;
+    octokit.repos.listForUser({
+	username: 'mengelbart',
+    }).then(({ data }) => {
+	links.push(...data.map(r => ({
+	    name: r.name,
+	    url: r.html_url,
+	})));
+	this.requestUpdate();
+    });
   }
 
   static get properties() {
@@ -72,14 +84,14 @@ class ResultList extends LitElement {
   position: absolute;
   width: 1px;
 }
-    
+
 .results {
   margin: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-    
+
 #filter {
   width: 100%;
   height: 46px;
