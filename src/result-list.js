@@ -4,15 +4,14 @@ import { Octokit } from '@octokit/rest';
 
 const octokit = Octokit();
 
-const links = [
+const constantLinks = [
   {
     name: "Github",
     url: "https://github.com/mengelbart",
   },
   {
     name: "Twitter",
-    url: "https://twitter.com/MathisEngelbart"
-
+    url: "https://twitter.com/MathisEngelbart",
   },
   {
     name: "Blog",
@@ -20,20 +19,40 @@ const links = [
   }
 ];
 
+const staticLinks = [];
+
 class ResultList extends LitElement {
 
   constructor() {
     super();
     this.search = '';
-    this.links = links;
+    this.links = [];
     octokit.repos.listForUser({
-	username: 'mengelbart',
+	    username: 'mengelbart',
     }).then(({ data }) => {
-	links.push(...data.map(r => ({
-	    name: r.name,
-	    url: r.html_url,
-	})));
-	this.requestUpdate();
+  // const data = [
+  //   {
+  //     name: 'test',
+  //     url: 'testurl',
+  //     description: 'description',
+  //     fork: false,
+  //   },
+  //   {
+  //     name: 'test1',
+  //     url: 'testurl1',
+  //     description: 'description1',
+  //     fork: true,
+  //   }
+  // ];
+      staticLinks.push(...data.map(r => ({
+          name: r.name,
+          url: r.html_url,
+          description: r.description,
+          fork: r.fork,
+        })
+      ));
+      this.links = constantLinks.concat(this.splitForks(staticLinks));
+	    this.requestUpdate();
     });
   }
 
@@ -46,16 +65,25 @@ class ResultList extends LitElement {
 
   handleInput(e) {
     this.search = e.target.value;
-    this.links = this.filter(links, this.search);
+    this.links = this.filter(constantLinks, this.search).concat(this.splitForks(this.filter(staticLinks, this.search)));
+  }
+
+  splitForks(rs) {
+    const a = rs.filter((r) => !r.fork);
+    const b = rs.filter((r) => r.fork);
+    return a.concat(b);
   }
 
   filter(links, search) {
     return links.filter((l) => l.name.toLowerCase().includes(search.toLowerCase()))
-      .sort((a, b) => a.name > b.name ? 1 : ((b.name > a.name) ? -1 : 0))
+      .sort((a, b) => a.name.localeCompare(b.name))
   }
 
   render() {
-    return html`<div id="wrapper">
+    return html`<header>
+    <h1>Mathis Engelbart</h1>
+  </header>
+  <div id="wrapper">
   <label for="filter" class="visuallyhidden">Filter</label>
   <input id="filter" name="filter" type="text" placeholder="Filter" @input="${this.handleInput}" .value="${this.search}">
   <div>
@@ -66,7 +94,11 @@ class ResultList extends LitElement {
 </div>
 <div class="results">
   ${this.links.map((link) => html`<div class="link">
-    <a href="${link.url}" target="_blank" rel="noreferrer">${link.name}</a>
+    <a href="${link.url}" target="_blank" rel="noreferrer">${link.name} ${link.fork ? html`(fork)` : ``}</a>
+    <p>${link.description}</p>
+  </div>
+  <div>
+    
   </div>`)}
 <div class="results">
 `;
@@ -74,6 +106,11 @@ class ResultList extends LitElement {
 
   static get styles() {
     return css`
+
+header {
+  text-align: center;
+}
+
 .visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -89,7 +126,7 @@ class ResultList extends LitElement {
   margin: 100px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
 }
 
 #filter {
