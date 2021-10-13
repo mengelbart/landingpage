@@ -12,10 +12,6 @@ const constantLinks = [
   {
     name: "Twitter",
     url: "https://twitter.com/MathisEngelbart",
-  },
-  {
-    name: "Blog",
-    url: "https://blog.mathis.dev",
   }
 ];
 
